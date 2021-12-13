@@ -27,4 +27,8 @@ if [[ -n "$OPS" ]]; then
     echo $OPS | awk -v RS=, '{print}' > ops.txt
 fi
 
+curl -o log4j2_112-116.xml https://launcher.mojang.com/v1/objects/02937d122c86ce73319ef9975b58896fc1b491d1/log4j2_112-116.xml
+if [[ $(grep log4j2_112-116.xml server-setup-config.yaml | wc -l) -eq 0 ]]; then
+	sed -i "/javaArgs:/a \        - '-Dlog4j.configurationFile=log4j2_112-116.xml'" server-setup-config.yaml
+fi
 ./start-server.sh
